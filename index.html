@@ -313,6 +313,40 @@
     }
     .cta:hover .cta-arrow { transform: translateX(3px); }
 
+    /* ── Secondary CTA ── */
+    .cta-secondary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 13px 24px;
+      border-radius: 12px;
+      background: transparent;
+      color: var(--muted);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.10);
+      cursor: pointer;
+      margin-top: 10px;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+      animation: fadeUp 0.6s 0.54s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    .cta-secondary:hover {
+      color: #fff;
+      border-color: rgba(0,210,255,0.30);
+      background: rgba(0,210,255,0.05);
+    }
+    .cta-secondary svg {
+      width: 14px; height: 14px;
+      flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+    .cta-secondary:hover svg { transform: translateY(2px); }
+
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(14px); }
       to   { opacity: 1; transform: translateY(0);    }
@@ -421,6 +455,41 @@
       <span class="cta-arrow">→</span>
     </a>
 
+    <!-- vCard download -->
+    <button class="cta-secondary" onclick="downloadVCard()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      Télécharger ma fiche contact
+    </button>
+
   </div>
+
+  <script>
+    function downloadVCard() {
+      var vcf = [
+        'BEGIN:VCARD',
+        'VERSION:3.0',
+        'N:Pelizzardi;Grégoire;;;',
+        'FN:Grégoire Pelizzardi',
+        'TITLE:Développeur Web Freelance',
+        'TEL;TYPE=CELL:+33658936788',
+        'EMAIL:contact@gregodev.com',
+        'URL:https://gregodev.com',
+        'X-SOCIALPROFILE;type=linkedin:https://linkedin.com/in/grégoire-pelizzardi',
+        'END:VCARD'
+      ].join('\r\n');
+
+      var blob = new Blob([vcf], { type: 'text/vcard;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'Gregoire-Pelizzardi.vcf';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  </script>
 </body>
 </html>
